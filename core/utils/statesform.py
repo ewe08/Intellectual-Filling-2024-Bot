@@ -8,4 +8,4 @@ class RegisterForm(StatesGroup):
 
 class AnswerForm(StatesGroup):
     GET_ANSWER = State()
-
+    GET_QUESTION = State()

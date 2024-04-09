@@ -19,7 +19,19 @@ class Request:
         self.connector = connector
 
     async def set_command(self, user_id: int, command: str, members: str) -> None:
-        query = '''
-        insert into commands (id_captain, command_name, members) values ('{0}', '{1}', '{2}')
-        '''
-        await self.connector.execute(query.format(user_id, command, members))
+        query = "insert into commands (id_captain, command_name, members)" \
+                f"values ('{user_id}', '{command}', '{members}')" \
+
+        await self.connector.execute(query)
+
+    async def get_all_commands(self):
+        query = "SELECT (id_captain) FROM commands"
+        return await self.connector.fetch(query)
+
+    async def set_answer(self, user_id: int, answer: str) -> None:
+        query = (f"INSERT INTO game (commands_id_captain, answer)"
+                 f"VALUES ('{user_id}', '{answer}')")
+        await self.connector.execute(query)
+
+    async def get_all_answers(self):
+        query = "SELECT id_captain FROM game"
